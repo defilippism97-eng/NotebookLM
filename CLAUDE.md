@@ -25,6 +25,15 @@ Questo repository collega le sessioni Claude Code a Google NotebookLM tramite
   aprire una nuova sessione. Prima di chiederlo, escludere il problema
   dell'indirizzo descritto qui sotto.
 
+## Cronologia della chat di un notebook
+
+- `nlm chats ...` e gli strumenti MCP `chat_list`, `chat_get`, `chat_export`
+  richiedono un profilo salvato su disco e ignorano `NOTEBOOKLM_COOKIES`: qui
+  falliscono con "Profile 'default' not found" anche se l'accesso funziona.
+- Per leggere gli scambi usare lo script del repository, che stampa JSON
+  (domanda e risposta per ogni turno):
+  `uvx --from notebooklm-mcp-cli python scripts/chat_history.py <notebook_id> 2>/dev/null`
+
 ## Indirizzo: notebook.google.com, non notebooklm.google.com
 
 - Google ha spostato NotebookLM su `https://notebook.google.com`. La libreria
