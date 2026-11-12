@@ -16,9 +16,28 @@ Questo repository collega le sessioni Claude Code a Google NotebookLM tramite
 - L'accesso usa i cookie della sessione Google dell'utente, letti dalla variabile
   d'ambiente `NOTEBOOKLM_COOKIES`, impostata dall'utente nelle impostazioni
   dell'ambiente cloud (mai nel repository, mai in chat).
-- Verifica: `nlm login --check`.
+- Verifica: `nlm notebook list`. Non usare `nlm login --check`: cerca un profilo
+  salvato su disco, ignora `NOTEBOOKLM_COOKIES` e risponde sempre
+  "Profile not found: default" anche quando l'accesso funziona.
 - La variabile è una credenziale statica: non si rinnova da sola. Quando scade
-  (errori 401/403 o "Authentication expired"), `nlm login` e `refresh_auth` non
-  possono ripararla: l'utente deve copiare cookie nuovi dal browser, aggiornare
-  la variabile nell'ambiente e aprire una nuova sessione.
+  davvero, `nlm login` e `refresh_auth` non possono ripararla: l'utente deve
+  copiare cookie nuovi dal browser, aggiornare la variabile nell'ambiente e
+  aprire una nuova sessione. Prima di chiederlo, escludere il problema
+  dell'indirizzo descritto qui sotto.
+
+## Indirizzo: notebook.google.com, non notebooklm.google.com
+
+- Google ha spostato NotebookLM su `https://notebook.google.com`. La libreria
+  usa ancora `https://notebooklm.google.com` come predefinito: con i cookie
+  dell'utente quell'indirizzo rimanda alla pagina di login e la libreria
+  risponde "Authentication expired" **anche se i cookie sono validi**.
+- Per questo `NOTEBOOKLM_BASE_URL=https://notebook.google.com` è impostata in
+  `.mcp.json` (server MCP) e in `.claude/settings.json` (CLI `nlm` da Bash).
+  Non rimuoverla.
+- Se compare "Authentication expired", prima di dire all'utente di rifare i
+  cookie eseguire:
+  `NOTEBOOKLM_BASE_URL=https://notebook.google.com nlm notebook list`.
+  Se elenca i notebook, i cookie sono buoni e manca solo la variabile nel
+  processo che ha dato l'errore (gli strumenti MCP la leggono solo all'avvio
+  della sessione: nel frattempo usare la CLI con il prefisso qui sopra).
 - Non scrivere mai cookie o token in file tracciati da git (vedi `.gitignore`).

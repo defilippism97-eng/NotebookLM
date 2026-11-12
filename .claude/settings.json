@@ -1,0 +1,5 @@
+{
+  "env": {
+    "NOTEBOOKLM_BASE_URL": "https://notebook.google.com"
+  }
+}

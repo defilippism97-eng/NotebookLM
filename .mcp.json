@@ -2,7 +2,10 @@
   "mcpServers": {
     "notebooklm": {
       "command": "uvx",
-      "args": ["--from", "notebooklm-mcp-cli", "notebooklm-mcp"]
+      "args": ["--from", "notebooklm-mcp-cli", "notebooklm-mcp"],
+      "env": {
+        "NOTEBOOKLM_BASE_URL": "https://notebook.google.com"
+      }
     }
   }
 }
