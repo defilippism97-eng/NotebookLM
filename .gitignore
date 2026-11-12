@@ -1,0 +1,8 @@
+# Credenziali Google / NotebookLM: mai nel repository
+cookies*.txt
+cookies*.json
+*.cookies
+auth.json
+.env
+.env.*
+.notebooklm-mcp-cli/
